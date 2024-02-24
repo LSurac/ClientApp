@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary-color: #333333;
+  --accent-color: #f5f5f5;
+  --error-color: darkred;
+  --warning-color: orange;
+  --default-font: Arial, sans-serif;
+  --default-font-size: 24px;
+}
+
+html,
+.body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--accent-color);
+}
+
+// Then import Bootstrap
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
