@@ -1,5 +1,5 @@
 export const ENVIRONMENT = {
-    apiBaseUrl: "https://localhost:44349",
+    apiBaseUrl: "http://localhost:44349",
     appBaseHref: "",
     authorizedLandingPage: {
         routerlink: "/home"

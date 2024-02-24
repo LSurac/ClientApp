@@ -1,34 +1,38 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './components/pages/login/login.component';
 import { HomeComponent } from './components/pages/home/home.component';
-import { anonymousGuard } from './guards/anonymous.guard';
-import { authenticatedGuard } from './guards/authenticated.guard';
+import { AnonymousGuard } from './guards/anonymous.guard';
+import { AuthenticatedGuard } from './guards/authenticated.guard';
+import { LoginComponent } from './components/pages/login/login.component';
+import { LoginModule } from './components/pages/login/login.module';
 
 const ROUTES: Routes = [
   {
     path: 'login',
     component: LoginComponent,
 
-    canLoad: [anonymousGuard],
+    canLoad: [AnonymousGuard],
     canActivate: [
-      anonymousGuard
+      AnonymousGuard
     ],
   },
   {
     path: 'home',
     component: HomeComponent,
 
-    canLoad: [authenticatedGuard],
-    canActivate: [],
+    canLoad: [AuthenticatedGuard],
+    canActivate: [
+      AuthenticatedGuard
+    ],
   },
   {
     path: '',
-    component: LoginComponent
+    redirectTo: 'login',
+    pathMatch: 'full'
   },
   {
     path: '**',
-    component: LoginComponent
+    redirectTo: 'login'
   }
 ]
 
@@ -38,6 +42,8 @@ const ROUTES: Routes = [
       enableTracing: false,
       scrollPositionRestoration: "disabled",
     }),
+
+    LoginModule
   ],
   exports: [
     RouterModule

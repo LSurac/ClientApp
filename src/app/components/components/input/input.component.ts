@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class InputComponent {
   @Input() public inputLabel?: string;
+  @Input() public type?: string;
   @Output() confirmInput: EventEmitter<string> = new EventEmitter()
   public value: string | undefined;
 
@@ -14,6 +15,12 @@ export class InputComponent {
     if (event.key !== "Enter") {
       return;
     }
+
+    this.emit()
+  }
+
+  emit() {
+    this.value = this.value?.trim();
 
     this.confirmInput.emit(this.value)
   }

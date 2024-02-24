@@ -16,7 +16,7 @@ export class AuthService {
   protected authenticatedChanged: Observable<boolean>;
 
   private accessJWTSubscription: Subscription | undefined;
-  private userNumber: string | undefined;
+  private employeeId: string | undefined;
 
   protected lStorage: LocalStorageService;
 
@@ -47,12 +47,10 @@ export class AuthService {
         (jwt: string) => {
           let jwtDecoded = this.jwtHelper.decodeToken(jwt);
 
-          setTimeout(() => {
-            let authenticationState: boolean = jwt ? true : false;
-            this.authenticationStateUpdate(authenticationState);
+          let authenticationState: boolean = jwt ? true : false;
+          this.authenticationStateUpdate(authenticationState);
 
-            this.employeeIdUpdate(jwtDecoded?.UserNumber);
-          });
+          this.employeeIdUpdate(jwtDecoded?.UserNumber);
         }
       );
     }
@@ -82,7 +80,7 @@ export class AuthService {
     return this.authenticatedChanged;
   }
 
-  public accessJWTSet(token: string): string | undefined {
+  public async accessJWTSet(token: string): Promise<string | undefined> {
     let areStoredAndReceivedTokensEqual = this.accessJWTSubject.value === token;
     if (areStoredAndReceivedTokensEqual) {
       return this.accessJWTSubject.value;
@@ -93,8 +91,8 @@ export class AuthService {
     if (isAccessJWTValid) {
       let accessJWTStored: string | undefined = this.lStorage.accessJWTSet(token);
       let decodeToken = this.jwtHelper.decodeToken(token);
-      this.userNumber = decodeToken.UserNumber;
-      this.accessJWTSubjectSet(accessJWTStored);
+      this.employeeId = decodeToken.EmployeeId;
+      await this.accessJWTSubjectSet(accessJWTStored);
       return accessJWTStored;
     } else {
       this.accessJWTClear();
@@ -104,7 +102,7 @@ export class AuthService {
 
   public accessJWTClear() {
     this.lStorage.accessJWTClear();
-    this.userNumber = undefined;
+    this.employeeId = undefined;
     this.accessJWTSubjectSet("");
     this.authenticationStateUpdate(false);
   }
@@ -113,7 +111,7 @@ export class AuthService {
     return this.authenticatedSource.value;
   }
 
-  private accessJWTSubjectSet(desiredAuthenticationState: string) {
+  private async accessJWTSubjectSet(desiredAuthenticationState: string) {
     this.accessJWTSubject.next(desiredAuthenticationState);
   }
 
@@ -129,7 +127,7 @@ export class AuthService {
 
     let decodeToken = this.jwtHelper.decodeToken(token);
 
-    if (this.userNumber != undefined && this.userNumber != decodeToken.UserNumber) {
+    if (this.employeeId != undefined && this.employeeId != decodeToken.UserNumber) {
       window.location.reload();
       return true;
     }

@@ -1,1 +1,4 @@
-<p>login works!</p>
+<app-input [inputLabel]="'Mitarbeiter Nummer'" (confirmInput)="employeeIdGet($event)"></app-input>
+<app-input [inputLabel]="'Passwort'" [type]="'password'" (confirmInput)="passwordGet($event)"></app-input>
+
+<button (click)="Login()">Einloggen</button>
