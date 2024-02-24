@@ -10,6 +10,7 @@ import { LocalStorageService } from './services/localstorage.service';
 import { EmployeeService } from './services/employee.service';
 import { TimeclockService } from './services/timeclock.service';
 import { EmployeeClient, TimeClockClient } from './services/Web_Time_Clock_Client';
+import { InputModule } from './components/components/input/input.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { EmployeeClient, TimeClockClient } from './services/Web_Time_Clock_Clien
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    InputModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpAuthInterceptor, multi: true },
